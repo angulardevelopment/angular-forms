@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="submit(form.value)">
+  <div>
+    <label>Purchase Price</label>
+    <input type="number" formControlName="purchaseprice" [value]="calculatePurchasePriceTaxes()">
+  </div>
+  <div>
+    <label>TAXES</label>
+    <select formControlName="taxes">
+      <option value="21">21%</option>
+      <option value="10">10%</option>
+      <option value="4">4%</option>
+    </select>
+  </div>
+  <div>
+    <label>Purchase Price + TAX.</label>
+    <input type="number" formControlName="purchasepricetaxes">
+  </div>
+  <div *ngIf="purchasepricetaxes.invalid && (purchasepricetaxes.dirty || purchasepricetaxes.touched)"
+    class="alert alert-danger">
+  <div *ngIf="purchasepricetaxes.errors.required">
+    Name is required.
+  </div>
+  </div>
+  <button type="submit">submit</button>
+</form>
