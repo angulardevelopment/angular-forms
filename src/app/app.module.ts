@@ -7,13 +7,15 @@ import { BasicComponent } from './basic/basic.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SingleDetailFormComponent } from './single-detail-form/single-detail-form.component';
 import { ThemeComponent } from './theme/theme.component';
+import { ValidateDirective } from './validate.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     BasicComponent,
     SingleDetailFormComponent,
-    ThemeComponent
+    ThemeComponent,
+    ValidateDirective
   ],
   imports: [
     BrowserModule,

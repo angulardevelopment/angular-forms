@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-single-detail-form',
@@ -12,13 +12,18 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   form: FormGroup; // create 3 form-controls (purchase price, taxes, purchase-price taxes) in this
-
+// built in- required, requiredTrue, min, max, minLength, maxLength and pattern
   constructor(private fb: FormBuilder) {
     //  initialize the form it is mandatory to assign default values.
     this.form = this.fb.group({
       purchaseprice: new FormControl({ value: '', disabled: true }),
       taxes: '21',
-      purchasepricetaxes: new FormControl('', Validators.required)
+      purchasepricetaxes: new FormControl('', Validators.required),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
+      ]),
     });
     // this.form.valueChanges.subscribe(data => console.log(data, 'simple'));
   }
@@ -29,6 +34,7 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   get purchasepricetaxes() { return this.form.get('purchasepricetaxes'); }
+  get name() { return this.form.get('name'); }
 
 
 
@@ -37,4 +43,11 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
 
+}
+
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? {forbiddenName: {value: control.value}} : null;
+  };
 }
