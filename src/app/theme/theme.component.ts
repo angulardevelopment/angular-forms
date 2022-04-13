@@ -14,6 +14,7 @@ export class ThemeComponent implements OnInit {
 
   @ViewChild('headchange') header;
     onSubmit(form) {
+      console.log(form, 'form');
         this.global(form.value);
     }
 

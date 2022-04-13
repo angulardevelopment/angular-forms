@@ -7,16 +7,24 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm, Val
   styleUrls: ['./single-detail-form.component.scss']
 })
 export class SingleDetailFormComponent implements OnInit {
+  game= '';
 
+  myGroup: FormGroup;
   ngOnInit(): void {
+    this.myGroup = new FormGroup({
+      gameControl: new FormControl()
+   });
   }
 
-  form: FormGroup; // create 3 form-controls (purchase price, taxes, purchase-price taxes) in this
-// built in- required, requiredTrue, min, max, minLength, maxLength and pattern
+  showGame(){
+    console.log(this.game,this.myGroup.get('gameControl').value, 'game')
+  }
+
+  form: FormGroup;
+
   constructor(private fb: FormBuilder) {
-    //  initialize the form it is mandatory to assign default values.
     this.form = this.fb.group({
-      purchaseprice: new FormControl({ value: '', disabled: true }),
+      purchaseprice:  '',
       taxes: '21',
       purchasepricetaxes: new FormControl('', Validators.required),
       name: new FormControl('', [
@@ -25,7 +33,7 @@ export class SingleDetailFormComponent implements OnInit {
         forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
       ]),
     });
-    // this.form.valueChanges.subscribe(data => console.log(data, 'simple'));
+    this.form.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
   }
 
   calculatePurchasePriceTaxes() {
@@ -39,7 +47,7 @@ export class SingleDetailFormComponent implements OnInit {
 
 
   submit(f) {
-    console.log(f, 's'); // { purchasepricetaxes: 3, taxes: "21"}
+    console.log(f, 's');
   }
 
 
