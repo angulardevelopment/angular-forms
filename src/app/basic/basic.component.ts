@@ -15,18 +15,18 @@ export class BasicComponent {
       employees: this.fb.array([this.newEmployee(), this.newEmployee()]),
     });
     // to set default value in form
-    this.employees().setValue([
-    	{ lastName: "a", firstName: "b"},
-    	{ lastName: "c", firstName: "d"}
-    ]);
+    // this.employees().setValue([
+    // 	{ lastName: "a", firstName: "b"},
+    // 	{ lastName: "c", firstName: "d"}
+    // ]);
 
-    // to set particular value in form
-    this.employees().patchValue([
-      { lastName: "g" },
-    ]);
+    // // to set particular value in form
+    // this.employees().patchValue([
+    //   { lastName: "g" },
+    // ]);
 
     // to track changes in form
-    this.empForm.valueChanges.subscribe(data => console.log(data, 'dynamic'));
+    this.empForm.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
   }
 
   employees(): FormArray {
@@ -35,7 +35,7 @@ export class BasicComponent {
 
   newEmployee(): FormGroup {
     return this.fb.group({
-      firstName: '',
+      firstName: new FormControl({ value: '', disabled: true }) ,
       lastName: '',
       skills: this.fb.array([])
     });

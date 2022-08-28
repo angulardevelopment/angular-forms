@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, NgForm, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-single-detail-form',
@@ -8,46 +8,44 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm, Val
 })
 export class SingleDetailFormComponent implements OnInit {
   game= '';
+  favoriteColorControl = new FormControl('');
 
   myGroup: FormGroup;
+  form: FormGroup;
+  get purchasepricetaxes() { return this.form.get('purchasepricetaxes'); }
+  get txtvalue() { return this.form.get('txtvalue'); }
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      purchaseprice:  '',
+      taxes: '21',
+      purchasepricetaxes: new FormControl('', Validators.required),
+      txtvalue: new FormControl('', [
+        Validators.minLength(4),
+        forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
+      ]),
+    });
+    this.form.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
+    this.form.statusChanges.subscribe(data => console.log(data, 'statusChanges'));
+
+  }
+//  initialize the form it is mandatory to assign default values.
   ngOnInit(): void {
     this.myGroup = new FormGroup({
       gameControl: new FormControl()
    });
   }
 
-  showGame(){
-    console.log(this.game,this.myGroup.get('gameControl').value, 'game')
+  submittedValues(){
+    console.log(this.game,this.myGroup.get('gameControl').value, 
+    this.favoriteColorControl.value, 'game')
   }
 
-  form: FormGroup;
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      purchaseprice:  '',
-      taxes: '21',
-      purchasepricetaxes: new FormControl('', Validators.required),
-      name: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
-      ]),
-    });
-    this.form.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
-  }
-
-  calculatePurchasePriceTaxes() {
+  calculatePurchasePriceTaxes() {  
     return this.form.value.purchasepricetaxes + (+this.form.value.taxes);
-
   }
 
-  get purchasepricetaxes() { return this.form.get('purchasepricetaxes'); }
-  get name() { return this.form.get('name'); }
-
-
-
-  submit(f) {
-    console.log(f, 's');
+  submitTax(f) {
+    console.log(f, 'submitTax');
   }
 
 
@@ -59,3 +57,4 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
     return forbidden ? {forbiddenName: {value: control.value}} : null;
   };
 }
+

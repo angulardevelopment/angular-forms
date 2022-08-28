@@ -1,3 +1,4 @@
+<div>
 Favorite Game (template diven approach):
 <input type="text" [(ngModel)]="game" />
 
@@ -5,10 +6,12 @@ Favorite Game (template diven approach):
   Favorite Game with formcontrol:
   <input type="text" formControlName="gameControl" name="gameControl" />
 </form>
+<button (click)="submittedValues()">show Game</button>
 
-<button (click)="showGame()">show Game</button>
+Favorite Color: <input type="text" [formControl]="favoriteColorControl">
+</div>
 
-<form [formGroup]="form" (ngSubmit)="submit(form.value)">
+<!-- <form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
   <div>
     <label>Purchase Price</label>
     <input
@@ -32,32 +35,20 @@ Favorite Game (template diven approach):
     <input type="number" formControlName="purchasepricetaxes" />
   </div>
 
-  <div
-    *ngIf="
-      purchasepricetaxes.invalid &&
-      (purchasepricetaxes.dirty || purchasepricetaxes.touched)
-    "
-    class="alert alert-danger"
-  >
-    <div *ngIf="purchasepricetaxes.errors.required">price is required.</div>
-  </div>
-
   <input
     type="text"
     id="name"
-    name="name"
     class="form-control"
-    formControlName="name"
+    formControlName="txtvalue"
     placeholder="name"
   />
 
-  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
-    <div *ngIf="name.errors?.required">Name is required.</div>
-    <div *ngIf="name.errors?.minlength">
+  <div *ngIf="txtvalue.invalid && (txtvalue.dirty || txtvalue.touched)" class="alert">
+    <div *ngIf="txtvalue.errors?.minlength">
       Name must be at least 4 characters long.
     </div>
-    <div *ngIf="name.errors?.forbiddenName">Name cannot be Bob.noooooooooo</div>
+    <div *ngIf="txtvalue.errors?.forbiddenName">Name cannot be Bob.noooooooooo</div>
   </div>
 
   <button type="submit">submit</button>
-</form>
+</form> -->

@@ -14,14 +14,11 @@ export class ThemeComponent implements OnInit {
 
   @ViewChild('headchange') header;
     onSubmit(form) {
-      console.log(form, 'form');
-        this.global(form.value);
+      console.log(form.value, 'global');
+      const stylesheet =  form.value;
+      if (stylesheet.globalNavColor) {
+        this.header.nativeElement.style.backgroundColor = stylesheet.globalNavColor;
     }
-
-    global(stylesheet) {
-        if (stylesheet.globalNavColor) {
-            this.header.nativeElement.style.backgroundColor = stylesheet.globalNavColor;
-        }
     }
 
 
