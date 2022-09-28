@@ -11,7 +11,7 @@ Favorite Game (template diven approach):
 Favorite Color: <input type="text" [formControl]="favoriteColorControl">
 </div>
 
-<!-- <form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
+<form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
   <div>
     <label>Purchase Price</label>
     <input
@@ -49,6 +49,15 @@ Favorite Color: <input type="text" [formControl]="favoriteColorControl">
     </div>
     <div *ngIf="txtvalue.errors?.forbiddenName">Name cannot be Bob.noooooooooo</div>
   </div>
+  <div
+  *ngIf="
+    form.get('purchaseprice').invalid &&
+    (form.get('purchaseprice').dirty || form.get('purchaseprice').touched)
+  "
+>
+  Please provide a name.
+</div>
+  <button type="submit" [disabled]="form.invalid">submit</button>
 
-  <button type="submit">submit</button>
-</form> -->
+  
+</form>

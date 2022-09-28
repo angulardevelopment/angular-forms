@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ThemeComponent } from './theme.component';
 
@@ -8,6 +9,10 @@ describe('ThemeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule ,
+        FormsModule  
+      ],
       declarations: [ ThemeComponent ]
     })
     .compileComponents();

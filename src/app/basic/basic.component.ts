@@ -70,7 +70,7 @@ export class BasicComponent {
   }
 
   onSubmit() {
-    console.log(this.empForm.value, 'value');
+    console.log(this.empForm.value,this.empForm.valid, 'value');
   }
 
 }

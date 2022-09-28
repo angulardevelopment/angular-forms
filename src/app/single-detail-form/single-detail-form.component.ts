@@ -16,14 +16,18 @@ export class SingleDetailFormComponent implements OnInit {
   get txtvalue() { return this.form.get('txtvalue'); }
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      purchaseprice:  '',
+      // purchaseprice:  '',
+      purchaseprice:  ['', Validators.required],
       taxes: '21',
+      // email: ['', [Validators.required, Validators.email]],
+
       purchasepricetaxes: new FormControl('', Validators.required),
       txtvalue: new FormControl('', [
         Validators.minLength(4),
         forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
       ]),
     });
+
     this.form.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
     this.form.statusChanges.subscribe(data => console.log(data, 'statusChanges'));
 
