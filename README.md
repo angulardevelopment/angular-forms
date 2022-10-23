@@ -118,7 +118,8 @@ Go to your repository on GitHub, you'll see a compare & pull request button. Cli
 Now submit the pull request.
    
 ## Need help?
-Feel free to contact me on this [link](https://bio.link/angulardev) 
+Feel free to contact me on this [link](https://bio.link/angulardev).<br /> 
+[Follow me](https://bio.link/angulardev)  : } quick approval of pull request
 
 [![Facebook](https://img.shields.io/badge/Facebook-add-blue.svg?logo=facebook&logoColor=white)](https://www.facebook.com/learnangular2plus/) [![Instagram](https://img.shields.io/badge/Instagram-follow-purple.svg?logo=instagram&logoColor=white)](https://www.instagram.com/angular_development/) [![Medium](https://img.shields.io/badge/Medium-follow-black.svg?logo=medium&logoColor=white)](https://eraoftech.medium.com/ )
 
@@ -172,7 +173,7 @@ if (youEnjoyed) {
 }
 
 ```
-
+happy coding fellas!!💕✨
 -----------
 
 
