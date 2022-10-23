@@ -70,13 +70,53 @@ Responsive site
 css flex usage
 basic features of SCSS
 
-## Support
-Don't Forget to bookmark/star this repo.
-
 ## buy me a coffee /Sponsor this project
 
 [ko-fi](https://ko-fi.com/softwaredev)
 
+## Support
+ (star ⭐ & fork 🍽️) this repository.
+ - Fork this repository by clicking on the fork button at the top of this page. This will create a copy of this repository in your account.
+   
+
+
+
+
+  
+
+ ##  Steps to contribute and generate PR(pull request)
+
+ ###  clone the repository
+clone the forked repository to your system. Go to your GitHub account, open the forked repository, click on the code button and then clone the repository.
+If you want to use the terminal, use the following commands after you fork the repository, open the terminal type the given command
+```
+git clone repourl
+```
+### create a branch
+ create a branch on your local repository to solve a problem.
+
+Terminal commands
+```
+git checkout -b your_new_branch_name
+```   
+###   add & commit
+add your changes(folder) to that branch.
+Make necessary changes and commit those changes. Terminal commands
+```
+git add .
+git commit -m "your-commit-message"
+```
+### push changes to github
+finally, push your local repository to the remote repository compare & submit a pull request
+
+terminal commands
+```
+git push origin 
+```
+Go to your repository on GitHub, you'll see a compare & pull request button. Click on that button.
+
+Now submit the pull request.
+   
 ## Need help?
 Feel free to contact me on this [link](https://bio.link/angulardev) 
 
