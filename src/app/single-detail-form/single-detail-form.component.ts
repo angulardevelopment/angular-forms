@@ -24,7 +24,7 @@ export class SingleDetailFormComponent implements OnInit {
       purchasepricetaxes: new FormControl('', Validators.required),
       txtvalue: new FormControl('', [
         Validators.minLength(4),
-        forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
+        // forbiddenNameValidator(/bob/i) // <-- Here's how you pass in the custom validator.
       ]),
     });
 
@@ -34,9 +34,17 @@ export class SingleDetailFormComponent implements OnInit {
   }
 //  initialize the form it is mandatory to assign default values.
   ngOnInit(): void {
-    this.myGroup = new FormGroup({
-      gameControl: new FormControl()
-   });
+  //   this.myGroup = new FormGroup({
+  //     gameControl: new FormControl()
+  //  });
+
+  this.myGroup = this.fb.group({
+    gameControl:  ['', {
+      validators: [
+        forbiddenNameValidator()
+      ],
+      updateOn: 'change'}],
+  });
   }
 
   submittedValues(){
@@ -55,9 +63,11 @@ export class SingleDetailFormComponent implements OnInit {
 
 }
 
-export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+export function forbiddenNameValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const forbidden = nameRe.test(control.value);
+    // const forbidden = nameRe.test(control.value);
+    const forbidden = !(control.value.indexOf( "cisco" ) != -1);
+
     return forbidden ? {forbiddenName: {value: control.value}} : null;
   };
 }

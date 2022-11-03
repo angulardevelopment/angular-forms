@@ -5,13 +5,18 @@ Favorite Game (template diven approach):
 <form [formGroup]="myGroup">
   Favorite Game with formcontrol:
   <input type="text" formControlName="gameControl" name="gameControl" />
+  
+   Your form status is : {{ myGroup.status }}
+
 </form>
+<button type="submit" [disabled]="!myGroup.valid">Submit Application</button>
+
 <button (click)="submittedValues()">show Game</button>
 
 Favorite Color: <input type="text" [formControl]="favoriteColorControl">
 </div>
 
-<form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
+<!-- <form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
   <div>
     <label>Purchase Price</label>
     <input
@@ -60,4 +65,4 @@ Favorite Color: <input type="text" [formControl]="favoriteColorControl">
   <button type="submit" [disabled]="form.invalid">submit</button>
 
   
-</form>
+</form> -->
