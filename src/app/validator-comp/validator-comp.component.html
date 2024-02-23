@@ -1,0 +1,68 @@
+<form [formGroup]="heroForm">
+<input
+  type="text"
+  id="name"
+  class="form-control"
+  formControlName="name"
+  required
+  placeholder="Reactive"
+/>
+
+<div
+  *ngIf="name.invalid && (name.dirty || name.touched)"
+  class="alert alert-danger"
+>
+  <div *ngIf="name.errors?.['required']">Name is required.</div>
+  <div *ngIf="name.errors?.['minlength']">
+    Name must be at least 4 characters long.
+  </div>
+  <div *ngIf="name.errors?.['forbiddenName']">
+    Name cannot be Bob.
+  </div>
+</div>
+<input
+  type="text"
+  id="name"
+  class="form-control"
+  formControlName="alterEgo"
+  required
+  placeholder="alterEgo"
+/>
+<div
+  *ngIf="
+    heroForm.errors?.['identityRevealed'] &&
+    (heroForm.touched || heroForm.dirty)
+  "
+  class="cross-validation-error-message alert alert-danger"
+>
+  Name cannot match alter ego.
+</div>
+</form>
+
+<!-- <div>
+<input
+  type="text"
+  id="name"
+  name="name"
+  class="form-control"
+  required
+  minlength="4"
+  appForbiddenName="bob"
+  [(ngModel)]="hero.name"
+  #name="ngModel"
+  placeholder="template driven"
+/>
+
+<div
+  *ngIf="name.invalid && (name.dirty || name.touched)"
+  class="alert"
+>
+  <div *ngIf="name.errors?.['required']">Name is required.</div>
+  <div *ngIf="name.errors?.['minlength']">
+    Name must be at least 4 characters long.
+  </div>
+  <div *ngIf="name.errors?.['forbiddenName']">
+    Name cannot be Bob.
+  </div>
+</div>
+</div> -->

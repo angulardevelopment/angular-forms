@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SingleDetailFormComponent } from './single-detail-form/single-detail-form.component';
 import { ThemeComponent } from './theme/theme.component';
 import { ValidateDirective } from './validate.directive';
+import { ValidatorCompComponent } from './validator-comp/validator-comp.component';
+import { ForbiddenNameDirective } from './forbidden-name.directive';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,16 @@ import { ValidateDirective } from './validate.directive';
     BasicComponent,
     SingleDetailFormComponent,
     ThemeComponent,
-    ValidateDirective
+    ValidateDirective,
+    ValidatorCompComponent,
+    ForbiddenNameDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -48,11 +48,11 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   submittedValues(){
-    console.log(this.game,this.myGroup.get('gameControl').value, 
+    console.log(this.game,this.myGroup.get('gameControl').value,
     this.favoriteColorControl.value, 'game')
   }
 
-  calculatePurchasePriceTaxes() {  
+  calculatePurchasePriceTaxes() {
     return this.form.value.purchasepricetaxes + (+this.form.value.taxes);
   }
 
