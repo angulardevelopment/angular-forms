@@ -12,15 +12,19 @@ export class BasicComponent {
 
   constructor(private fb: FormBuilder) {
     this.empForm = this.fb.group({
-      employees: this.fb.array([this.newEmployee(), this.newEmployee()]),
+      employees: this.fb.array([this.newEmployee()]),
     });
-    // to set default value in form
+    // to set default value in form in particular index
+    // this.employees().at(0).setValue(
+    // 	{ lastName: "a", firstName: "b", skills: []}
+    // );
+
+    // to set all default value in form
     // this.employees().setValue([
-    // 	{ lastName: "a", firstName: "b"},
-    // 	{ lastName: "c", firstName: "d"}
+    // 	{ lastName: "a", firstName: "b", skills: []}
     // ]);
 
-    // // to set particular value in form
+    // to set particular value in form
     // this.employees().patchValue([
     //   { lastName: "g" },
     // ]);
@@ -35,7 +39,9 @@ export class BasicComponent {
 
   newEmployee(): FormGroup {
     return this.fb.group({
-      firstName: new FormControl({ value: '', disabled: true }) ,
+      firstName: '' ,
+      // To add validation
+      // firstName: new FormControl({ value: '', disabled: true }) ,
       lastName: '',
       skills: this.fb.array([])
     });
@@ -57,7 +63,7 @@ export class BasicComponent {
     return this.fb.group({
       skill: '',
       exp: '',
-      exp2: ''
+      level: ''
     });
   }
 
