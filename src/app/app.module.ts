@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BasicComponent } from './basic/basic.component';
+import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SingleDetailFormComponent } from './single-detail-form/single-detail-form.component';
 import { ThemeComponent } from './theme/theme.component';
@@ -14,7 +14,7 @@ import { ForbiddenNameDirective } from './forbidden-name.directive';
 @NgModule({
   declarations: [
     AppComponent,
-    BasicComponent,
+    ReactiveFormComponent,
     SingleDetailFormComponent,
     ThemeComponent,
     ValidateDirective,
