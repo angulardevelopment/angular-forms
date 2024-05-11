@@ -1,22 +1,21 @@
 <div>
-Favorite Game (template diven approach):
-<input type="text" [(ngModel)]="game" />
+  Favorite Game (template diven approach):
+  <input type="text" [(ngModel)]="game" />
 
-<form [formGroup]="myGroup">
-  Favorite Game with formcontrol:
-  <input type="text" formControlName="gameControl" name="gameControl" />
-  
-   Your form status is : {{ myGroup.status }}
+  <form [formGroup]="myGroup">
+    Favorite Game with formcontrol:
+    <input type="text" formControlName="gameControl" name="gameControl" />
+    Your form status is : {{ myGroup.status }}
+  </form>
 
-</form>
-<button type="submit" [disabled]="!myGroup.valid">Submit Application</button>
+  <button type="submit" [disabled]="!myGroup.valid">Submit Application</button>
 
-<button (click)="submittedValues()">show Game</button>
+  <button (click)="submittedValues()">show Game</button>
 
-Favorite Color: <input type="text" [formControl]="favoriteColorControl">
+  Favorite Color: <input type="text" [formControl]="favoriteColorControl" />
 </div>
 
-<!-- <form [formGroup]="form" (ngSubmit)="submitTax(form.value)">
+<form [formGroup]="taxForm" (ngSubmit)="submitTax(taxForm.value)">
   <div>
     <label>Purchase Price</label>
     <input
@@ -56,13 +55,13 @@ Favorite Color: <input type="text" [formControl]="favoriteColorControl">
   </div>
   <div
   *ngIf="
-    form.get('purchaseprice').invalid &&
-    (form.get('purchaseprice').dirty || form.get('purchaseprice').touched)
+    taxForm.get('purchaseprice').invalid &&
+    (taxForm.get('purchaseprice').dirty || taxForm.get('purchaseprice').touched)
   "
 >
   Please provide a name.
 </div>
-  <button type="submit" [disabled]="form.invalid">submit</button>
+  <button type="submit" [disabled]="taxForm.invalid">submit</button>
 
   
-</form> -->
+</form>
