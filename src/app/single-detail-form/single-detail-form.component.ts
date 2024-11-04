@@ -7,7 +7,7 @@ import {
   NgForm,
   ValidatorFn,
   AbstractControl,
-  ValidationErrors,
+  ValidationErrors, UntypedFormGroup, UntypedFormControl
 } from '@angular/forms';
 import { concatMap, takeUntil } from 'rxjs/operators';
 import { forbiddenNameValidator } from './validator';
@@ -32,7 +32,10 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   constructor(private fb: FormBuilder) {
-
+    this.myForm = new UntypedFormGroup({
+      name: new UntypedFormControl(''),
+      email: new UntypedFormControl(''),
+    });
   }
 
   // good way of declaration
@@ -129,6 +132,12 @@ export class SingleDetailFormComponent implements OnInit {
 
   submitTax(f) {
     console.log(f, 'submitTax');
+  }
+
+  myForm: UntypedFormGroup;
+
+  onSubmit() {
+    console.log(this.myForm.value);
   }
 }
 
