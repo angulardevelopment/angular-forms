@@ -23,6 +23,7 @@ export class SingleDetailFormComponent implements OnInit {
   destroy$;
   myGroup: FormGroup;
   taxForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get purchasepricetaxes() {
     return this.taxForm.get('purchasepricetaxes');
@@ -134,7 +135,7 @@ export class SingleDetailFormComponent implements OnInit {
     console.log(f, 'submitTax');
   }
 
-  myForm: UntypedFormGroup;
+
 
   onSubmit() {
     console.log(this.myForm.value);
