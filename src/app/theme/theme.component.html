@@ -35,3 +35,10 @@
   </form>
   <p>Form value: {{ gsForm.value | json }}</p>
 </div>
+
+when a form control value changes in template-driven forms, Angular responds by returning a `VALID` status or generating a list of validation errors, making it easy to provide feedback to users based on their input.
+<form #myForm="ngForm">
+  <input name="email" ngModel required email #emailControl="ngModel" />
+  <div *ngIf="emailControl.errors?.required">Email is required.</div>
+  <div *ngIf="emailControl.errors?.email">Invalid email format.</div>
+</form>

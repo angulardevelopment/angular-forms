@@ -21,6 +21,7 @@ export class SingleDetailFormComponent implements OnInit {
   game = '';
   favoriteColorControl = new FormControl('');
   destroy$;
+  // explicitly define the structure and behavior of your form using the `FormGroup`, `FormControl`, and `FormArray` classes. This means you manually create the form controls and set their initial values, validators, and other configurations.
   myGroup: FormGroup;
   taxForm: FormGroup;
   myForm: UntypedFormGroup;
@@ -33,6 +34,7 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   constructor(private fb: FormBuilder) {
+    // create a form without strict typing.
     this.myForm = new UntypedFormGroup({
       name: new UntypedFormControl(''),
       email: new UntypedFormControl(''),
@@ -54,6 +56,7 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   createGroupFormControls(){
+    // Explicit State Management
        //   this.myGroup = new FormGroup({
     //     gameControl: new FormControl()
     //  });

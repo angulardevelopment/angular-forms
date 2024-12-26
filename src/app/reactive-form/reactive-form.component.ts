@@ -14,6 +14,11 @@ export class ReactiveFormComponent {
     this.empForm = this.fb.group({
       employees: this.fb.array([this.newEmployee()]),
     });
+    this.myForm = this.fb.group({
+      items: this.fb.array([]),
+    });
+    // Immutable State Management
+    // When you use methods like `setValue()` or `patchValue()`, you're effectively creating a new state for the form control:
     // to set default value in form in particular index
     // this.employees().at(0).setValue(
     // 	{ lastName: "a", firstName: "b", skills: []}
@@ -79,4 +84,16 @@ export class ReactiveFormComponent {
     console.log(this.empForm.value,this.empForm.valid, 'value');
   }
 
+  myForm: FormGroup;
+
+
+  // access the form array using the getter:
+  // better management of dynamic form structures
+  get items(): FormArray {
+    return this.myForm.get('items') as FormArray;
+  }
+
+  addItem() {
+    this.items.push(this.fb.control(''));
+  }
 }

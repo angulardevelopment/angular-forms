@@ -34,3 +34,13 @@
 
 
 {{this.empForm.value | json}}
+
+
+<form [formGroup]="myForm">
+  <div formArrayName="items">
+    <div *ngFor="let item of items.controls; let i = index">
+      <input [formControlName]="i" />
+    </div>
+  </div>
+  <button (click)="addItem()">Add Item</button>
+</form>
