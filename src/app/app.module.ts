@@ -10,6 +10,7 @@ import { ThemeComponent } from './theme/theme.component';
 import { ValidateDirective } from './validate.directive';
 import { ValidatorCompComponent } from './validator-comp/validator-comp.component';
 import { ForbiddenNameDirective } from './forbidden-name.directive';
+import { AsyncValidatorDirective } from './validator-comp/appAsyncValidator.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ForbiddenNameDirective } from './forbidden-name.directive';
     ThemeComponent,
     ValidateDirective,
     ValidatorCompComponent,
-    ForbiddenNameDirective
+    ForbiddenNameDirective,
+    AsyncValidatorDirective
   ],
   imports: [
     BrowserModule,

@@ -1,28 +1,28 @@
 <div class="theme" #headchange>
   <form #gsForm="ngForm" (ngSubmit)="onSubmit(gsForm)">
       <label>Set Navigation Font Color: </label>
-      <input #navColor name="globalNavColor" type="color" ngModel>
+      <input #navColor name="globalNavColor" type="color" ngModel class="styled-input">
       <br>
       <label>Set Navigation Background Color: </label>
-      <input #navBackground name="globalNavBackground" type="color" ngModel>
+      <input #navBackground name="globalNavBackground" type="color" ngModel class="styled-input">
       <br>
       <label>Set Card Font Color: </label>
-      <input #cardColor name="globalCardColor" type="color" ngModel>
+      <input #cardColor name="globalCardColor" type="color" ngModel class="styled-input">
       <br>
       <label>Set Card Background Color:</label>
-      <input #cardBackground name="globalCardBackground" type="color" ngModel>
+      <input #cardBackground name="globalCardBackground" type="color" ngModel class="styled-input">
       <br>
       <label>Set Button Font Color: </label>
-      <input #buttonColor name="globalButtonColor" type="color" ngModel>
+      <input #buttonColor name="globalButtonColor" type="color" ngModel class="styled-input">
       <br>
       <label>Set Button Background Color:</label>
-      <input #buttonBackground name="globalButtonBackground" type="color" ngModel>
+      <input #buttonBackground name="globalButtonBackground" type="color" ngModel class="styled-input">
       <br>
       <label>Set Footer Font Color: </label>
-      <input #footerColor name="globalFooterColor" type="color" ngModel>
+      <input #footerColor name="globalFooterColor" type="color" ngModel class="styled-input">
       <br>
       <label>Set Footer Background Color: </label>
-      <input #footerBackground name="globalFooterBackground" type="color" ngModel>
+      <input #footerBackground name="globalFooterBackground" type="color" ngModel class="styled-input">
       <br>
       <label>Set Footer Text Alignment:</label>
       <select name="globalFooterAlignment" ngModel>
@@ -31,14 +31,17 @@
           <option value="right">Right</option>
       </select>
       <br><br>
-      <button type="submit">Submit</button>
+      <button type="submit" class="formatted-button">Submit</button>
   </form>
   <p>Form value: {{ gsForm.value | json }}</p>
 </div>
 
-when a form control value changes in template-driven forms, Angular responds by returning a `VALID` status or generating a list of validation errors, making it easy to provide feedback to users based on their input.
+<p>
+when a form control value changes in template-driven forms, Angular responds by returning a `VALID` status or generating a list of validation errors, making it easy to provide feedback to users based on their input.</p>
 <form #myForm="ngForm">
-  <input name="email" ngModel required email #emailControl="ngModel" />
+  <input name="email" ngModel required email #emailControl="ngModel" class="styled-input"/>
   <div *ngIf="emailControl.errors?.required">Email is required.</div>
   <div *ngIf="emailControl.errors?.email">Invalid email format.</div>
+  <button class="formatted-button" type="button" (click)="checkValidationStatus()">Check Validation Status</button>
+<button class="formatted-button" type="button" (click)="checkEmailValue()">Check Email Value</button>
 </form>

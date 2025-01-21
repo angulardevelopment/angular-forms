@@ -51,7 +51,6 @@ export class SingleDetailFormComponent implements OnInit {
   ngOnInit(): void {
     this.createGroupFormControls();
     this.createTaxFormControls();
-
     this.trackTaxFormChanges();
   }
 
@@ -66,8 +65,8 @@ export class SingleDetailFormComponent implements OnInit {
       gameControl: [
         '',
         {
-          validators: [forbiddenNameValidator()],
-          updateOn: 'change',
+          // validators: [forbiddenNameValidator()],
+          // updateOn: 'change',
         },
       ],
     });
@@ -122,12 +121,7 @@ export class SingleDetailFormComponent implements OnInit {
   }
 
   submittedValues() {
-    console.log(
-      this.game,
-      this.myGroup.get('gameControl').value,
-      this.favoriteColorControl.value,
-      'game'
-    );
+    console.log(this.game, this.myGroup.get('gameControl').value, this.favoriteColorControl.value, this.myGroup, 'submittedValues');
   }
 
   calculatePurchasePriceTaxes() {

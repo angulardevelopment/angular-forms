@@ -69,8 +69,8 @@
 
 
 <form #myForm="ngForm">
-  <input name="username" ngModel appAsyncValidator />
-  <div *ngIf="myForm.controls.username.errors?.asyncError">
+  <input name="username" placeholder="username" ngModel appAsyncValidator />
+  <div *ngIf="myForm.controls?.username?.errors?.asyncError">
     This username is already taken.
   </div>
 </form>

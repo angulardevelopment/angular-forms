@@ -1,21 +1,22 @@
-<div>
-  Favorite Game (template diven approach):
-  <input type="text" [(ngModel)]="game" />
+<div class="form-container">
+  <label>Favorite Game (template driven approach):</label>
+  <input class="styled-input" type="text" [(ngModel)]="game" />
 
+  <label>Favorite Game (Reactive approach):</label>
   <form [formGroup]="myGroup">
-    Favorite Game with formcontrol:
-    <input type="text" formControlName="gameControl" name="gameControl" />
-    Your form status is : {{ myGroup.status }}
+    <label>Favorite Game with formcontrol:</label>
+    <input class="styled-input" type="text" formControlName="gameControl" name="gameControl" />
+    <p>Your form status is: {{ myGroup.status }}</p>
+    <button class="formatted-button" type="submit" [disabled]="!myGroup.valid">Submit Application</button>
   </form>
 
-  <button type="submit" [disabled]="!myGroup.valid">Submit Application</button>
+  <label>Favorite Color:</label>
+  <input class="styled-input" type="text" [formControl]="favoriteColorControl" />
 
-  <button (click)="submittedValues()">show Game</button>
-
-  Favorite Color: <input type="text" [formControl]="favoriteColorControl" />
+  <button class="formatted-button" (click)="submittedValues()">Show Data</button>
 </div>
 
-<form [formGroup]="taxForm" (ngSubmit)="submitTax(taxForm.value)">
+<!-- <form [formGroup]="taxForm" (ngSubmit)="submitTax(taxForm.value)">
   <div>
     <label>Purchase Price</label>
     <input
@@ -64,10 +65,10 @@
   <button type="submit" [disabled]="taxForm.invalid">submit</button>
 
   
-</form>
+</form> -->
 
 
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <label for="name">Name:</label>
   <input id="name" formControlName="name" />
 
@@ -75,4 +76,4 @@
   <input id="email" formControlName="email" />
 
   <button type="submit">Submit</button>
-</form>
+</form> -->

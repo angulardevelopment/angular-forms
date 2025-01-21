@@ -1,0 +1,36 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .styled-input {
+    padding: 10px; /* Add padding */
+    margin: 5px 0; /* Add margin */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    border: 2px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  .styled-input:focus {
+    border-color: #4CAF50; /* Change border color on focus */
+    outline: none; /* Remove outline */
+  }
+  
+  .formatted-button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 10px 20px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the buttons appear side by side */
+    font-size: 16px; /* Increase font size */
+    margin: 4px 2px; /* Some margin */
+    cursor: pointer; /* Pointer/hand icon */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .formatted-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }

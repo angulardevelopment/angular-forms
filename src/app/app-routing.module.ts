@@ -9,13 +9,13 @@ const routes: Routes = [{
   path: 'reactiveForm',
   component: ReactiveFormComponent
 }, {
-  path: 'singleDetail',
+  path: 'SingleDetailFormComponent',
   component: SingleDetailFormComponent
 } , {
-  path: 'theme',
+  path: 'ThemeComponent',
   component: ThemeComponent
 }, {
-  path: 'validator',
+  path: 'ValidatorComponent',
   component: ValidatorCompComponent
 }];
 

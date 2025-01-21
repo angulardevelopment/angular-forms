@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { forbiddenNameValidator } from '../forbidden-name.directive';
 
 @Component({
@@ -10,6 +10,7 @@ import { forbiddenNameValidator } from '../forbidden-name.directive';
 export class ValidatorCompComponent implements OnInit {
   heroForm: FormGroup;
   hero = {name:'', alterEgo: '', power: ''}
+    @ViewChild('myForm') myForm: NgForm;
   constructor() { }
 
 
