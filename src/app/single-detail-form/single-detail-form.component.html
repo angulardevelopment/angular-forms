@@ -1,19 +1,20 @@
+<h1>Explore the differences between Reactive and Template-driven forms in Angular and choose the best approach for your projects!</h1>
 <div class="form-container">
   <label>Favorite Game (template driven approach):</label>
   <input class="styled-input" type="text" [(ngModel)]="game" />
 
   <label>Favorite Game (Reactive approach):</label>
   <form [formGroup]="myGroup">
-    <label>Favorite Game with formcontrol:</label>
+    <label>with formcontrol:</label>
     <input class="styled-input" type="text" formControlName="gameControl" name="gameControl" />
     <p>Your form status is: {{ myGroup.status }}</p>
-    <button class="formatted-button" type="submit" [disabled]="!myGroup.valid">Submit Application</button>
+    <button class="formatted-button" type="submit" [disabled]="!myGroup.valid">Submit</button>
   </form>
 
   <label>Favorite Color:</label>
   <input class="styled-input" type="text" [formControl]="favoriteColorControl" />
 
-  <button class="formatted-button" (click)="submittedValues()">Show Data</button>
+  <button class="formatted-button" (click)="submittedValues()">Submit and show Application Data</button>
 </div>
 
 <!-- <form [formGroup]="taxForm" (ngSubmit)="submitTax(taxForm.value)">

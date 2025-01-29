@@ -1,4 +1,11 @@
+<h1>Learn how to add powerful validation to reactive forms in Angular for better data handling and user input control.</h1>
 <form [formGroup]="heroForm">
+  <ol>
+    <li>Name is required</li>
+    <li> Name must be at least 4 characters long.</li>
+    <li> Name cannot be Bob.</li>
+
+  </ol>
 <input
   type="text"
   id="name"
@@ -20,6 +27,12 @@
     Name cannot be Bob.
   </div>
 </div>
+
+<div>
+  <ol>
+    <li> Name cannot match alter ego.</li>
+
+  </ol>                
 <input
   type="text"
   id="name"
@@ -37,6 +50,7 @@
 >
   Name cannot match alter ego.
 </div>
+</div>
 </form>
 
 <!-- <div>
@@ -52,23 +66,14 @@
   #name="ngModel"
   placeholder="template driven"
 />
-
-<div
-  *ngIf="name.invalid && (name.dirty || name.touched)"
-  class="alert"
->
-  <div *ngIf="name.errors?.['required']">Name is required.</div>
-  <div *ngIf="name.errors?.['minlength']">
-    Name must be at least 4 characters long.
-  </div>
-  <div *ngIf="name.errors?.['forbiddenName']">
-    Name cannot be Bob.
-  </div>
-</div>
 </div> -->
 
 
 <form #myForm="ngForm">
+  <ol>
+    <li> username is already taken.</li>
+
+  </ol> 
   <input name="username" placeholder="username" ngModel appAsyncValidator />
   <div *ngIf="myForm.controls?.username?.errors?.asyncError">
     This username is already taken.
