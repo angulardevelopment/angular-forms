@@ -6,7 +6,7 @@ import { ThemeComponent } from './theme/theme.component';
 import { ValidatorCompComponent } from './validator-comp/validator-comp.component';
 
 const routes: Routes = [{
-  path: 'reactiveForm',
+  path: 'ReactiveFormComponent',
   component: ReactiveFormComponent
 }, {
   path: 'SingleDetailFormComponent',

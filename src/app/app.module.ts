@@ -27,8 +27,7 @@ import { AsyncValidatorDirective } from './validator-comp/appAsyncValidator.dire
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
-    ReactiveFormsModule
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

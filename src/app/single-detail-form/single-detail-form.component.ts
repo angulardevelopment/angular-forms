@@ -38,6 +38,7 @@ export class SingleDetailFormComponent implements OnInit {
     this.myForm = new UntypedFormGroup({
       name: new UntypedFormControl(''),
       email: new UntypedFormControl(''),
+      // email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -74,11 +75,8 @@ export class SingleDetailFormComponent implements OnInit {
 
   createTaxFormControls(){
        this.taxForm = this.fb.group({
-      // purchaseprice:  '',
       purchaseprice: ['', Validators.required],
       taxes: '21',
-      // email: ['', [Validators.required, Validators.email]],
-
       purchasepricetaxes: new FormControl('', Validators.required),
       txtvalue: new FormControl('', [
         Validators.minLength(4),
@@ -115,9 +113,9 @@ export class SingleDetailFormComponent implements OnInit {
       return value;
     })).subscribe((res)=>{console.log(res), (err)=>{console.log(err)}})
 
-    // this.taxForm.statusChanges.subscribe((data) =>
-    //   console.log(data, 'statusChanges')
-    // );
+    this.taxForm.statusChanges.subscribe((data) =>
+      console.log(data, 'statusChanges')
+    );
   }
 
   submittedValues() {
