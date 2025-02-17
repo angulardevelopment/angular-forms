@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ValidatorCompComponent } from './validator-comp.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ValidatorCompComponent', () => {
   let component: ValidatorCompComponent;
@@ -8,7 +9,8 @@ describe('ValidatorCompComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValidatorCompComponent ]
+      declarations: [ ValidatorCompComponent ],
+      imports: [FormsModule,ReactiveFormsModule],
     })
     .compileComponents();
   });

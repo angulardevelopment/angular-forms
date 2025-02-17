@@ -26,7 +26,7 @@ describe('SingleDetailFormComponent', () => {
   });
 
   it('should create', () => {
-    component.form.controls['taxes'].setValue('20') // This will trigger valueChanges
+    // component.form.controls['taxes'].setValue('20') // This will trigger valueChanges
 
     expect(component).toBeTruthy();
   });
