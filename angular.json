@@ -21,7 +21,6 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -97,16 +96,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+             "lintFilePatterns": [
+      "src/**/*.ts",
+      "src/**/*.html"
+    ]
           }
         },
         "e2e": {
@@ -124,7 +119,6 @@
       }
     }
   },
-  "defaultProject": "forms",
   "cli": {
     "analytics": "48bcaf23-e2eb-43b1-a516-eba796bf94c7"
   }
