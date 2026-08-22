@@ -7,7 +7,11 @@ import {
   NgForm,
   ValidatorFn,
   AbstractControl,
-  ValidationErrors, UntypedFormGroup, UntypedFormControl
+  ValidationErrors,
+  UntypedFormGroup,
+  UntypedFormControl,
+  ReactiveFormsModule,
+  FormsModule,
 } from '@angular/forms';
 import { concatMap, takeUntil } from 'rxjs/operators';
 import { forbiddenNameValidator } from './validator';
@@ -16,6 +20,7 @@ import { forbiddenNameValidator } from './validator';
   selector: 'app-single-detail-form',
   templateUrl: './single-detail-form.component.html',
   styleUrls: ['./single-detail-form.component.scss'],
+  imports: [ReactiveFormsModule, FormsModule],
 })
 export class SingleDetailFormComponent implements OnInit {
   game = '';
@@ -55,9 +60,9 @@ export class SingleDetailFormComponent implements OnInit {
     this.trackTaxFormChanges();
   }
 
-  createGroupFormControls(){
+  createGroupFormControls() {
     // Explicit State Management
-       //   this.myGroup = new FormGroup({
+    //   this.myGroup = new FormGroup({
     //     gameControl: new FormControl()
     //  });
     // 'displayName': new FormControl<string>('', Validators.required), // typed forms in new versions
@@ -73,8 +78,8 @@ export class SingleDetailFormComponent implements OnInit {
     });
   }
 
-  createTaxFormControls(){
-       this.taxForm = this.fb.group({
+  createTaxFormControls() {
+    this.taxForm = this.fb.group({
       purchaseprice: ['', Validators.required],
       taxes: '21',
       purchasepricetaxes: new FormControl('', Validators.required),
@@ -85,8 +90,8 @@ export class SingleDetailFormComponent implements OnInit {
     });
   }
 
-  trackTaxFormChanges(){
-       // single form changes
+  trackTaxFormChanges() {
+    // single form changes
     // this.taxForm
     //   .get('purchaseprice')
     //   .valueChanges.subscribe((data) => console.log(data, 'valueChanges'));
@@ -96,30 +101,47 @@ export class SingleDetailFormComponent implements OnInit {
     //   console.log(this.taxForm.value);
     // });
 
-//      concatMap is taking each form value and transforming it
-// into a save HTTP Observable, called an inner Observable
-// concatMap then subscribes to the inner Observable and
-// sends its output to the result Observable
-// a second form value might come faster than what it takes
-// to save the previous form value in the backend
-// If that happens, that new form value will not be
-// immediately mapped to an HTTP request
-// instead, concatMap will wait for previous HTTP
-// Observable to complete before mapping the new value to
-// an HTTP Observable, subscribing to it and therefore
-// triggering the next save
-    this.taxForm.valueChanges.pipe(concatMap(value => {
-      console.log(value, 'value');
-      return value;
-    })).subscribe((res)=>{console.log(res), (err)=>{console.log(err)}})
+    //      concatMap is taking each form value and transforming it
+    // into a save HTTP Observable, called an inner Observable
+    // concatMap then subscribes to the inner Observable and
+    // sends its output to the result Observable
+    // a second form value might come faster than what it takes
+    // to save the previous form value in the backend
+    // If that happens, that new form value will not be
+    // immediately mapped to an HTTP request
+    // instead, concatMap will wait for previous HTTP
+    // Observable to complete before mapping the new value to
+    // an HTTP Observable, subscribing to it and therefore
+    // triggering the next save
+    this.taxForm.valueChanges
+      .pipe(
+        concatMap((value) => {
+          console.log(value, 'value');
+          return value;
+        }),
+      )
+      .subscribe((res) => {
+        (console.log(res),
+          (err) => {
+            console.log(err);
+          });
+      });
 
     this.taxForm.statusChanges.subscribe((data) =>
-      console.log(data, 'statusChanges')
+      console.log(data, 'statusChanges'),
     );
   }
 
   submittedValues() {
-    console.log(this.game, this.myGroup.get('gameControl').value, this.favoriteColorControl.value, this.myGroup.status, this.myGroup.valid,this.myGroup, 'submittedValues');
+    console.log(
+      this.game,
+      this.myGroup.get('gameControl').value,
+      this.favoriteColorControl.value,
+      this.myGroup.status,
+      this.myGroup.valid,
+      this.myGroup,
+      'submittedValues',
+    );
   }
 
   calculatePurchasePriceTaxes() {
@@ -130,10 +152,7 @@ export class SingleDetailFormComponent implements OnInit {
     console.log(f, 'submitTax');
   }
 
-
-
   onSubmit() {
     console.log(this.myForm.value);
   }
 }
-

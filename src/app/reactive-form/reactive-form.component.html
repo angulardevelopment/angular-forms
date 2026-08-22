@@ -1,46 +1,64 @@
-
 <!-- add rows when you click on add employee button.  -->
 <button type="button" (click)="addEmployee()">Add Employee</button>
 
 <form [formGroup]="empForm" (ngSubmit)="onSubmit()">
   <div formArrayName="employees">
-    <div *ngFor="let employee of employees().controls; let empIndex=index">
-      <div [formGroupName]="empIndex" style="border: 1px solid blue; padding: 10px; margin: 5px;">
-        First Name :
-        <input type="text" formControlName="firstName">
-        Last Name:
-        <input type="text" formControlName="lastName">
-        <button (click)="removeEmployee(empIndex)">Remove</button>
-        <div formArrayName="skills">
-          <div *ngFor="let skill of employeeSkills(empIndex).controls; let skillIndex=index">
-            <div [formGroupName]="skillIndex">
-              Skill :
-              <input type="text" formControlName="skill">
-              Exp:
-              <input type="text" formControlName="exp">
-              level:
-              <input type="text" formControlName="level">
-              <button (click)="removeEmployeeSkill(empIndex,skillIndex)">Remove</button>
-            </div>
+    @for (
+      employee of employees().controls;
+      track employee;
+      let empIndex = $index
+    ) {
+      <div>
+        <div
+          [formGroupName]="empIndex"
+          style="border: 1px solid blue; padding: 10px; margin: 5px"
+        >
+          First Name :
+          <input type="text" formControlName="firstName" />
+          Last Name:
+          <input type="text" formControlName="lastName" />
+          <button (click)="removeEmployee(empIndex)">Remove</button>
+          <div formArrayName="skills">
+            @for (
+              skill of employeeSkills(empIndex).controls;
+              track skill;
+              let skillIndex = $index
+            ) {
+              <div>
+                <div [formGroupName]="skillIndex">
+                  Skill :
+                  <input type="text" formControlName="skill" />
+                  Exp:
+                  <input type="text" formControlName="exp" />
+                  level:
+                  <input type="text" formControlName="level" />
+                  <button (click)="removeEmployeeSkill(empIndex, skillIndex)">
+                    Remove
+                  </button>
+                </div>
+              </div>
+            }
+            <button type="button" (click)="addEmployeeSkill(empIndex)">
+              Add Skill
+            </button>
           </div>
-          <button type="button" (click)="addEmployeeSkill(empIndex)">Add Skill</button>
         </div>
       </div>
-    </div>
+    }
   </div>
   <!-- must add this in form tag -->
   <button type="submit">Submit</button>
 </form>
 
-
-{{this.empForm.value | json}}
-
+{{ this.empForm.value | json }}
 
 <form [formGroup]="myForm">
   <div formArrayName="items">
-    <div *ngFor="let item of items.controls; let i = index">
-      <input [formControlName]="i" />
-    </div>
+    @for (item of items.controls; track item; let i = $index) {
+      <div>
+        <input [formControlName]="i" />
+      </div>
+    }
   </div>
   <button (click)="addItem()">Add Item</button>
 </form>

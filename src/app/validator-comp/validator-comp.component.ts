@@ -1,30 +1,43 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NgForm,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { forbiddenNameValidator } from '../forbidden-name.directive';
+import { AsyncValidatorDirective } from './appAsyncValidator.directive';
 
 @Component({
   selector: 'app-validator-comp',
   templateUrl: './validator-comp.component.html',
-  styleUrls: ['./validator-comp.component.scss']
+  styleUrls: ['./validator-comp.component.scss'],
+  imports: [ReactiveFormsModule, FormsModule, AsyncValidatorDirective],
 })
 export class ValidatorCompComponent implements OnInit {
   heroForm: FormGroup;
-  hero = {name:'', alterEgo: '', power: ''}
-    @ViewChild('myForm') myForm: NgForm;
-  constructor() { }
-
-
+  hero = { name: '', alterEgo: '', power: '' };
+  @ViewChild('myForm') myForm: NgForm;
+  constructor() {}
 
   ngOnInit(): void {
-    this.heroForm = new FormGroup({
-      name: new FormControl(this.hero.name, [
-        Validators.required,
-        Validators.minLength(4),
-        forbiddenNameValidator(/bob/i), // <-- Here's how you pass in the custom validator.
-      ]),
-      alterEgo: new FormControl(this.hero.alterEgo),
-      power: new FormControl(this.hero.power, Validators.required),
-    }, { validators: identityRevealedValidator });
+    this.heroForm = new FormGroup(
+      {
+        name: new FormControl(this.hero.name, [
+          Validators.required,
+          Validators.minLength(4),
+          forbiddenNameValidator(/bob/i), // <-- Here's how you pass in the custom validator.
+        ]),
+        alterEgo: new FormControl(this.hero.alterEgo),
+        power: new FormControl(this.hero.power, Validators.required),
+      },
+      { validators: identityRevealedValidator },
+    );
   }
 
   get name() {
@@ -47,6 +60,3 @@ export const identityRevealedValidator: ValidatorFn = (
     ? { identityRevealed: true }
     : null;
 };
-
-
-

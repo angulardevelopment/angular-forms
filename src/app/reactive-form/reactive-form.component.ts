@@ -1,13 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+  FormArray,
+  NgForm,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
-  styleUrls: ['./reactive-form.component.scss']
+  styleUrls: ['./reactive-form.component.scss'],
+  imports: [ReactiveFormsModule, JsonPipe],
 })
 export class ReactiveFormComponent {
-
   empForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -35,7 +44,9 @@ export class ReactiveFormComponent {
     // ]);
 
     // to track changes in form
-    this.empForm.valueChanges.subscribe(data => console.log(data, 'valueChanges'));
+    this.empForm.valueChanges.subscribe((data) =>
+      console.log(data, 'valueChanges'),
+    );
   }
 
   employees(): FormArray {
@@ -44,11 +55,11 @@ export class ReactiveFormComponent {
 
   newEmployee(): FormGroup {
     return this.fb.group({
-      firstName: '' ,
+      firstName: '',
       // To add validation
       // firstName: new FormControl({ value: '', disabled: true }) ,
       lastName: '',
-      skills: this.fb.array([])
+      skills: this.fb.array([]),
     });
   }
 
@@ -68,7 +79,7 @@ export class ReactiveFormComponent {
     return this.fb.group({
       skill: '',
       exp: '',
-      level: ''
+      level: '',
     });
   }
 
@@ -81,11 +92,10 @@ export class ReactiveFormComponent {
   }
 
   onSubmit() {
-    console.log(this.empForm.value,this.empForm.valid, 'value');
+    console.log(this.empForm.value, this.empForm.valid, 'value');
   }
 
   myForm: FormGroup;
-
 
   // access the form array using the getter:
   // better management of dynamic form structures

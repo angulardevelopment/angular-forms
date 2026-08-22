@@ -1,11 +1,15 @@
 <p>forms</p>
-<div *ngIf="routes && routes.length">
+<!-- {{ checkCD }} -->
+@if (routes && routes.length) {
+  <div>
     <h2>Available Routes</h2>
     <ul>
-      <li *ngFor="let route of routes">
-        <a [routerLink]="route.path">{{ route.path }} (Component: {{ route.component.name }})</a>
-      </li>
-      
+      @for (route of routes; track route) {
+        <li>
+          <a [routerLink]="route.path">{{ route.path }} </a>
+        </li>
+      }
     </ul>
   </div>
+}
 <router-outlet></router-outlet>

@@ -9,10 +9,8 @@ describe('ValidatorCompComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValidatorCompComponent ],
-      imports: [FormsModule,ReactiveFormsModule],
-    })
-    .compileComponents();
+      imports: [FormsModule, ReactiveFormsModule, ValidatorCompComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

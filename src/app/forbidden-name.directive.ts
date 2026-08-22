@@ -1,5 +1,11 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+  ValidatorFn,
+} from '@angular/forms';
 
 @Directive({
   selector: '[appForbiddenName]',
@@ -19,7 +25,6 @@ export class ForbiddenNameDirective implements Validator {
       ? forbiddenNameValidator(new RegExp(this.forbiddenName, 'i'))(control)
       : null;
   }
-
 }
 
 /** A hero's name can't match the given regular expression */

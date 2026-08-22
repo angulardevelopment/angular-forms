@@ -1,0 +1,586 @@
+<div class="demo-wrapper">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-badge">Angular Signal Forms Schema Composition</div>
+    <h1>Reusable Schemas & Conditional Logic Demo</h1>
+    <p class="header-description">
+      Explore modular schema validation using <code>schema&lt;T&gt;()</code>, <code>apply()</code>, 
+      <code>applyEach()</code> for arrays, and <code>applyWhen()</code> for conditional validation rules.
+    </p>
+  </header>
+
+  <div class="demo-layout">
+    <!-- MAIN FORM COLUMN -->
+    <div class="main-column">
+      <form (submit)="onSubmit($event)">
+        
+        <!-- SECTION 1: CUSTOMER & CONTACT (apply) -->
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">1</span>
+            <div>
+              <h3>Customer & Contact Details</h3>
+              <p class="section-desc">Uses <code>apply(f.contact, contactSchema)</code></p>
+            </div>
+          </div>
+
+          <div class="form-group" [class.has-error]="orderForm.customerName().invalid() && orderForm.customerName().touched()">
+            <label for="customerName">Customer Name <span class="required">*</span></label>
+            <input
+              id="customerName"
+              type="text"
+              placeholder="e.g. Sarah Connor"
+              [formField]="orderForm.customerName"
+              class="input-control"
+            />
+            @if (orderForm.customerName().invalid() && orderForm.customerName().touched()) {
+              <div class="error-msg">
+                @for (err of orderForm.customerName().errors(); track err.kind) {
+                  <span>⚠ {{ err.message }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group" [class.has-error]="orderForm.contact.email().invalid() && orderForm.contact.email().touched()">
+              <label for="contactEmail">Contact Email <span class="required">*</span></label>
+              <input
+                id="contactEmail"
+                type="email"
+                placeholder="sarah@example.com"
+                [formField]="orderForm.contact.email"
+                class="input-control"
+              />
+              @if (orderForm.contact.email().invalid() && orderForm.contact.email().touched()) {
+                <div class="error-msg">
+                  @for (err of orderForm.contact.email().errors(); track err.kind) {
+                    <span>⚠ {{ err.message }}</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="form-group" [class.has-error]="orderForm.contact.phone().invalid() && orderForm.contact.phone().touched()">
+              <label for="contactPhone">Phone Number <span class="required">*</span></label>
+              <input
+                id="contactPhone"
+                type="text"
+                placeholder="e.g. 5551234567"
+                [formField]="orderForm.contact.phone"
+                class="input-control"
+              />
+              @if (orderForm.contact.phone().invalid() && orderForm.contact.phone().touched()) {
+                <div class="error-msg">
+                  @for (err of orderForm.contact.phone().errors(); track err.kind) {
+                    <span>⚠ {{ err.message }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: REUSABLE ADDRESSES (apply) -->
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">2</span>
+            <div>
+              <h3>Addresses (Billing & Shipping)</h3>
+              <p class="section-desc">Reuses the same <code>addressSchema</code> on multiple nested objects with <code>apply()</code></p>
+            </div>
+          </div>
+
+          <div class="address-columns">
+            <!-- Billing Address -->
+            <div class="sub-card">
+              <h4 class="sub-title">📍 Billing Address</h4>
+              <div class="form-group" [class.has-error]="orderForm.billingAddress.street().invalid() && orderForm.billingAddress.street().touched()">
+                <label>Street <span class="required">*</span></label>
+                <input
+                  type="text"
+                  placeholder="123 Main St"
+                  [formField]="orderForm.billingAddress.street"
+                  class="input-control"
+                />
+                @if (orderForm.billingAddress.street().invalid() && orderForm.billingAddress.street().touched()) {
+                  <div class="error-msg">
+                    @for (err of orderForm.billingAddress.street().errors(); track err.kind) {
+                      <span>⚠ {{ err.message }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.billingAddress.city().invalid() && orderForm.billingAddress.city().touched()">
+                  <label>City <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="New York"
+                    [formField]="orderForm.billingAddress.city"
+                    class="input-control"
+                  />
+                  @if (orderForm.billingAddress.city().invalid() && orderForm.billingAddress.city().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.billingAddress.city().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="orderForm.billingAddress.zipCode().invalid() && orderForm.billingAddress.zipCode().touched()">
+                  <label>ZIP Code <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="10001"
+                    [formField]="orderForm.billingAddress.zipCode"
+                    class="input-control"
+                  />
+                  @if (orderForm.billingAddress.zipCode().invalid() && orderForm.billingAddress.zipCode().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.billingAddress.zipCode().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="sub-card">
+              <h4 class="sub-title">📦 Shipping Address</h4>
+              <div class="form-group" [class.has-error]="orderForm.shippingAddress.street().invalid() && orderForm.shippingAddress.street().touched()">
+                <label>Street <span class="required">*</span></label>
+                <input
+                  type="text"
+                  placeholder="456 Elm St"
+                  [formField]="orderForm.shippingAddress.street"
+                  class="input-control"
+                />
+                @if (orderForm.shippingAddress.street().invalid() && orderForm.shippingAddress.street().touched()) {
+                  <div class="error-msg">
+                    @for (err of orderForm.shippingAddress.street().errors(); track err.kind) {
+                      <span>⚠ {{ err.message }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.shippingAddress.city().invalid() && orderForm.shippingAddress.city().touched()">
+                  <label>City <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Los Angeles"
+                    [formField]="orderForm.shippingAddress.city"
+                    class="input-control"
+                  />
+                  @if (orderForm.shippingAddress.city().invalid() && orderForm.shippingAddress.city().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.shippingAddress.city().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="orderForm.shippingAddress.zipCode().invalid() && orderForm.shippingAddress.zipCode().touched()">
+                  <label>ZIP Code <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="90001"
+                    [formField]="orderForm.shippingAddress.zipCode"
+                    class="input-control"
+                  />
+                  @if (orderForm.shippingAddress.zipCode().invalid() && orderForm.shippingAddress.zipCode().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.shippingAddress.zipCode().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: ARRAY VALIDATION (applyEach) -->
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">3</span>
+            <div class="flex-between-header">
+              <div>
+                <h3>Delivery Destinations (Array Validation)</h3>
+                <p class="section-desc">Uses <code>applyEach(f.deliveryLocations, addressSchema)</code></p>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline" (click)="addDeliveryLocation()">
+                + Add Destination
+              </button>
+            </div>
+          </div>
+
+          @for (loc of orderForm.deliveryLocations; track $index; let i = $index) {
+            <div class="array-item-card">
+              <div class="array-header">
+                <span class="dest-badge">Destination #{{ i + 1 }}</span>
+                @if (orderForm.deliveryLocations.length > 1) {
+                  <button type="button" class="btn-remove" (click)="removeDeliveryLocation(i)">✕ Remove</button>
+                }
+              </div>
+
+              <div class="grid-3">
+                <div class="form-group" [class.has-error]="loc.street().invalid() && loc.street().touched()">
+                  <label>Street <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Warehouse / Hub St"
+                    [formField]="loc.street"
+                    class="input-control"
+                  />
+                  @if (loc.street().invalid() && loc.street().touched()) {
+                    <div class="error-msg">
+                      @for (err of loc.street().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="loc.city().invalid() && loc.city().touched()">
+                  <label>City <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="City"
+                    [formField]="loc.city"
+                    class="input-control"
+                  />
+                  @if (loc.city().invalid() && loc.city().touched()) {
+                    <div class="error-msg">
+                      @for (err of loc.city().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="loc.zipCode().invalid() && loc.zipCode().touched()">
+                  <label>ZIP Code <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="ZIP (5 digits)"
+                    [formField]="loc.zipCode"
+                    class="input-control"
+                  />
+                  @if (loc.zipCode().invalid() && loc.zipCode().touched()) {
+                    <div class="error-msg">
+                      @for (err of loc.zipCode().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- SECTION 4: CONDITIONAL SCHEMA (applyWhen) -->
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">4</span>
+            <div>
+              <h3>Payment Method (Conditional Schema)</h3>
+              <p class="section-desc">Uses <code>applyWhen(f.cardDetails, condition, cardPaymentSchema)</code></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Select Payment Method</label>
+            <div class="radio-row">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  value="card"
+                  [formField]="orderForm.paymentMethod"
+                />
+                <span>Credit / Debit Card (Card Validation Active)</span>
+              </label>
+
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  value="cash"
+                  [formField]="orderForm.paymentMethod"
+                />
+                <span>Cash on Delivery (Card Validation Skipped)</span>
+              </label>
+            </div>
+          </div>
+
+          @if (orderForm.paymentMethod().value() === 'card') {
+            <div class="sub-card animated-fade-in card-payment-box">
+              <h4 class="sub-title">💳 Card Information (cardPaymentSchema Active)</h4>
+
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.cardDetails.cardNumber().invalid() && orderForm.cardDetails.cardNumber().touched()">
+                  <label>Card Number (16 digits) <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="1234567890123456"
+                    [formField]="orderForm.cardDetails.cardNumber"
+                    class="input-control"
+                  />
+                  @if (orderForm.cardDetails.cardNumber().invalid() && orderForm.cardDetails.cardNumber().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.cardDetails.cardNumber().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="orderForm.cardDetails.cardHolder().invalid() && orderForm.cardDetails.cardHolder().touched()">
+                  <label>Cardholder Name <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="SARAH CONNOR"
+                    [formField]="orderForm.cardDetails.cardHolder"
+                    class="input-control"
+                  />
+                  @if (orderForm.cardDetails.cardHolder().invalid() && orderForm.cardDetails.cardHolder().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.cardDetails.cardHolder().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.cardDetails.expiryDate().invalid() && orderForm.cardDetails.expiryDate().touched()">
+                  <label>Expiry Date (MM/YY) <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="12/28"
+                    [formField]="orderForm.cardDetails.expiryDate"
+                    class="input-control"
+                  />
+                  @if (orderForm.cardDetails.expiryDate().invalid() && orderForm.cardDetails.expiryDate().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.cardDetails.expiryDate().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="orderForm.cardDetails.cvv().invalid() && orderForm.cardDetails.cvv().touched()">
+                  <label>CVV (3-4 digits) <span class="required">*</span></label>
+                  <input
+                    type="password"
+                    placeholder="123"
+                    [formField]="orderForm.cardDetails.cvv"
+                    class="input-control"
+                  />
+                  @if (orderForm.cardDetails.cvv().invalid() && orderForm.cardDetails.cvv().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.cardDetails.cvv().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          } @else {
+            <div class="notice-box">
+              ✓ Cash on Delivery selected. Card validation schema is dynamically disabled.
+            </div>
+          }
+        </div>
+
+        <!-- SECTION 5: CONDITIONAL INVOICE SCHEMA (applyWhen) -->
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">5</span>
+            <div>
+              <h3>Document & Invoice (Conditional Schema)</h3>
+              <p class="section-desc">Uses <code>applyWhen(f.invoiceDetails, condition, invoiceSchema)</code></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Billing Document Type</label>
+            <div class="btn-group-toggle">
+              <button
+                type="button"
+                class="toggle-btn"
+                [class.active]="orderModel().documentType === 'invoice'"
+                (click)="setDocumentType('invoice')"
+              >
+                🏢 Commercial Invoice (Requires Tax ID & Company)
+              </button>
+              <button
+                type="button"
+                class="toggle-btn"
+                [class.active]="orderModel().documentType === 'receipt'"
+                (click)="setDocumentType('receipt')"
+              >
+                🧾 Standard Receipt (Personal)
+              </button>
+            </div>
+          </div>
+
+          @if (orderModel().documentType === 'invoice') {
+            <div class="sub-card animated-fade-in invoice-box">
+              <h4 class="sub-title">🏢 Invoice Information (invoiceSchema active)</h4>
+              
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.invoiceDetails.companyName().invalid() && orderForm.invoiceDetails.companyName().touched()">
+                  <label>Company Name <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Acme Enterprises LLC"
+                    [formField]="orderForm.invoiceDetails.companyName"
+                    class="input-control"
+                  />
+                  @if (orderForm.invoiceDetails.companyName().invalid() && orderForm.invoiceDetails.companyName().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.invoiceDetails.companyName().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="form-group" [class.has-error]="orderForm.invoiceDetails.taxId().invalid() && orderForm.invoiceDetails.taxId().touched()">
+                  <label>Tax / VAT ID <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="US12345678"
+                    [formField]="orderForm.invoiceDetails.taxId"
+                    class="input-control"
+                  />
+                  @if (orderForm.invoiceDetails.taxId().invalid() && orderForm.invoiceDetails.taxId().touched()) {
+                    <div class="error-msg">
+                      @for (err of orderForm.invoiceDetails.taxId().errors(); track err.kind) {
+                        <span>⚠ {{ err.message }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          } @else {
+            <div class="notice-box">
+              ✓ Standard Receipt selected. Invoice schema is inactive.
+            </div>
+          }
+        </div>
+
+        <!-- FORM ACTIONS -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            [disabled]="isSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span>Submitting Order...</span>
+            } @else {
+              <span>Submit Complete Order</span>
+            }
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onReset()"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- INSPECTOR COLUMN -->
+    <div class="side-column">
+      <div class="card inspector-card sticky-card">
+        <div class="inspector-header">
+          <h2>⚡ Live Signal Form State</h2>
+          <span
+            class="status-chip"
+            [class.valid]="orderForm().valid()"
+            [class.invalid]="orderForm().invalid()"
+          >
+            @if (orderForm().valid()) {
+              ✓ Form Valid
+            } @else {
+              ✕ {{ errorsCount() }} Errors
+            }
+          </span>
+        </div>
+
+        <!-- Metric badges -->
+        <div class="metric-grid">
+          <div class="metric-item">
+            <span class="label">valid()</span>
+            <span class="val" [class.positive]="orderForm().valid()">{{ orderForm().valid() }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="label">invalid()</span>
+            <span class="val" [class.negative]="orderForm().invalid()">{{ orderForm().invalid() }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="label">touched()</span>
+            <span class="val">{{ orderForm().touched() }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="label">dirty()</span>
+            <span class="val">{{ orderForm().dirty() }}</span>
+          </div>
+        </div>
+
+        <!-- Active Errors List -->
+        <div class="inspector-section">
+          <h3>Active Validation Errors ({{ errorsCount() }})</h3>
+          @if (orderForm().errors().length === 0) {
+            <div class="no-errors-box">
+              ✨ All schemas passed validation!
+            </div>
+          } @else {
+            <ul class="error-tree">
+              @for (err of orderForm().errors(); track err.kind + err.message) {
+                <li class="error-tree-item">
+                  <span class="kind">[{{ err.kind }}]</span>
+                  <span class="msg">{{ err.message }}</span>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        <!-- Live Model Signal JSON -->
+        <div class="inspector-section">
+          <h3>orderModel Signal Value</h3>
+          <pre class="json-code">{{ orderModel() | json }}</pre>
+        </div>
+
+        <!-- Submission Banner -->
+        @if (submittedData(); as data) {
+          <div class="success-banner">
+            <h4>🎉 Order Submitted Successfully!</h4>
+            <p>Committed from reactive Signals:</p>
+            <pre class="json-code small">{{ data | json }}</pre>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

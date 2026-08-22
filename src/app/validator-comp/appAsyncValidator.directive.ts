@@ -1,5 +1,10 @@
 import { Directive } from '@angular/core';
-import { NG_ASYNC_VALIDATORS, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import {
+  NG_ASYNC_VALIDATORS,
+  AbstractControl,
+  ValidationErrors,
+  AsyncValidatorFn,
+} from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 // custom asynchronous validator directive
@@ -10,16 +15,15 @@ import { map, catchError } from 'rxjs/operators';
     {
       provide: NG_ASYNC_VALIDATORS,
       useExisting: AsyncValidatorDirective,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class AsyncValidatorDirective {
-
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.checkAsync(control.value).pipe(
-      map(isValid => (isValid ? null : { asyncError: true })),
-      catchError(() => of(null)) // Handle error and return null
+      map((isValid) => (isValid ? null : { asyncError: true })),
+      catchError(() => of(null)), // Handle error and return null
     );
   }
 

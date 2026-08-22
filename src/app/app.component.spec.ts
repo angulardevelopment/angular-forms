@@ -6,12 +6,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterTestingModule, AppComponent],
     }).compileComponents();
   });
 
@@ -24,5 +19,4 @@ describe('AppComponent', () => {
   it(`should have as title 'demo-angular-jest'`, () => {
     expect(component.title).toEqual('forms');
   });
-  
 });

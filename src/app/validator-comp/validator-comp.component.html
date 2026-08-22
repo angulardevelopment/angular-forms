@@ -1,81 +1,80 @@
-<h1>Learn how to add powerful validation to reactive forms in Angular for better data handling and user input control.</h1>
+<h1>
+  Learn how to add powerful validation to reactive forms in Angular for better
+  data handling and user input control.
+</h1>
 <form [formGroup]="heroForm">
   <ol>
     <li>Name is required</li>
-    <li> Name must be at least 4 characters long.</li>
-    <li> Name cannot be Bob.</li>
-
+    <li>Name must be at least 4 characters long.</li>
+    <li>Name cannot be Bob.</li>
   </ol>
-<input
-  type="text"
-  id="name"
-  class="form-control"
-  formControlName="name"
-  required
-  placeholder="Reactive"
-/>
+  <input
+    type="text"
+    id="name"
+    class="form-control"
+    formControlName="name"
+    required
+    placeholder="Reactive"
+  />
 
-<div
-  *ngIf="name.invalid && (name.dirty || name.touched)"
-  class="alert alert-danger"
->
-  <div *ngIf="name.errors?.['required']">Name is required.</div>
-  <div *ngIf="name.errors?.['minlength']">
-    Name must be at least 4 characters long.
+  @if (name.invalid && (name.dirty || name.touched)) {
+    <div class="alert alert-danger">
+      @if (name.errors?.["required"]) {
+        <div>Name is required.</div>
+      }
+      @if (name.errors?.["minlength"]) {
+        <div>Name must be at least 4 characters long.</div>
+      }
+      @if (name.errors?.["forbiddenName"]) {
+        <div>Name cannot be Bob.</div>
+      }
+    </div>
+  }
+
+  <div>
+    <ol>
+      <li>Name cannot match alter ego.</li>
+    </ol>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      formControlName="alterEgo"
+      required
+      placeholder="alterEgo"
+    />
+    @if (
+      heroForm.errors?.["identityRevealed"] &&
+      (heroForm.touched || heroForm.dirty)
+    ) {
+      <div class="cross-validation-error-message alert alert-danger">
+        Name cannot match alter ego.
+      </div>
+    }
   </div>
-  <div *ngIf="name.errors?.['forbiddenName']">
-    Name cannot be Bob.
-  </div>
-</div>
-
-<div>
-  <ol>
-    <li> Name cannot match alter ego.</li>
-
-  </ol>                
-<input
-  type="text"
-  id="name"
-  class="form-control"
-  formControlName="alterEgo"
-  required
-  placeholder="alterEgo"
-/>
-<div
-  *ngIf="
-    heroForm.errors?.['identityRevealed'] &&
-    (heroForm.touched || heroForm.dirty)
-  "
-  class="cross-validation-error-message alert alert-danger"
->
-  Name cannot match alter ego.
-</div>
-</div>
 </form>
 
 <!-- <div>
-<input
-  type="text"
-  id="name"
-  name="name"
-  class="form-control"
-  required
-  minlength="4"
-  appForbiddenName="bob"
-  [(ngModel)]="hero.name"
-  #name="ngModel"
-  placeholder="template driven"
-/>
-</div> -->
-
+    <input
+      type="text"
+      id="name"
+      name="name"
+      class="form-control"
+      required
+      minlength="4"
+      appForbiddenName="bob"
+      [(ngModel)]="hero.name"
+      #name="ngModel"
+      placeholder="template driven"
+      />
+    </div> -->
 
 <form #myForm="ngForm">
   <ol>
-    <li> username is already taken.</li>
-
-  </ol> 
+    <li>username is already taken.</li>
+  </ol>
   <input name="username" placeholder="username" ngModel appAsyncValidator />
-  <div *ngIf="myForm.controls?.username?.errors?.asyncError">
-    This username is already taken.
-  </div>
+  @if (myForm.controls?.username?.errors?.asyncError) {
+    <div>This username is already taken.</div>
+  }
 </form>

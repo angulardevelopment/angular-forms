@@ -1,0 +1,329 @@
+<div class="form-container">
+  <header class="form-header">
+    <div class="badge-pill">Angular Signal Forms</div>
+    <h1>User Registration & Profile Setup</h1>
+    <p class="subtitle">
+      Demonstrating built-in validators, custom cross-field rules, HTTP async validation, and dynamic form state logic with Signals.
+    </p>
+  </header>
+
+  <div class="grid-layout">
+    <!-- FORM SECTION -->
+    <div class="card form-card">
+      <form (submit)="onSubmit($event)">
+        <!-- Username Field with validateHttp Async Check -->
+        <div class="form-group" [class.has-error]="registrationForm.username().invalid() && registrationForm.username().touched()">
+          <div class="label-row">
+            <label for="username">Username <span class="required-star">*</span></label>
+            @if (registrationForm.username().pending()) {
+              <span class="status-indicator pending">Checking availability...</span>
+            } @else if (registrationForm.username().valid() && registrationForm.username().value()) {
+              <span class="status-indicator available">✓ Username available</span>
+            }
+          </div>
+          <input
+            id="username"
+            type="text"
+            placeholder="e.g. Bret, Antonette (taken) or newuser"
+            [formField]="registrationForm.username"
+            class="input-control"
+          />
+          <small class="helper-text">Try 'Bret' or 'Antonette' to trigger async taken error.</small>
+          @if (registrationForm.username().invalid() && registrationForm.username().touched()) {
+            <div class="error-feedback">
+              @for (err of registrationForm.username().errors(); track err.kind) {
+                <span>{{ err.message }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group" [class.has-error]="registrationForm.email().invalid() && registrationForm.email().touched()">
+          <label for="email">Email Address <span class="required-star">*</span></label>
+          <input
+            id="email"
+            type="email"
+            placeholder="john.doe@example.com"
+            [formField]="registrationForm.email"
+            class="input-control"
+          />
+          @if (registrationForm.email().invalid() && registrationForm.email().touched()) {
+            <div class="error-feedback">
+              @for (err of registrationForm.email().errors(); track err.kind) {
+                <span>{{ err.message }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Password & Confirm Password (Cross-Field Validation) -->
+        <div class="form-row">
+          <div class="form-group" [class.has-error]="registrationForm.password().invalid() && registrationForm.password().touched()">
+            <label for="password">Password <span class="required-star">*</span></label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Minimum 8 characters"
+              [formField]="registrationForm.password"
+              class="input-control"
+            />
+            @if (registrationForm.password().invalid() && registrationForm.password().touched()) {
+              <div class="error-feedback">
+                @for (err of registrationForm.password().errors(); track err.kind) {
+                  <span>{{ err.message }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group" [class.has-error]="registrationForm.confirmPassword().invalid() && registrationForm.confirmPassword().touched()">
+            <label for="confirmPassword">Confirm Password <span class="required-star">*</span></label>
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Re-enter password"
+              [formField]="registrationForm.confirmPassword"
+              class="input-control"
+            />
+            @if (registrationForm.confirmPassword().invalid() && registrationForm.confirmPassword().touched()) {
+              <div class="error-feedback">
+                @for (err of registrationForm.confirmPassword().errors(); track err.kind) {
+                  <span>{{ err.message }}</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Age (Numeric Min/Max) and Postal Code (Pattern/Regex) -->
+        <div class="form-row">
+          <div class="form-group" [class.has-error]="registrationForm.age().invalid() && registrationForm.age().touched()">
+            <label for="age">Age (18 - 120) <span class="required-star">*</span></label>
+            <input
+              id="age"
+              type="number"
+              placeholder="e.g. 25"
+              [formField]="registrationForm.age"
+              class="input-control"
+            />
+            @if (registrationForm.age().invalid() && registrationForm.age().touched()) {
+              <div class="error-feedback">
+                @for (err of registrationForm.age().errors(); track err.kind) {
+                  <span>{{ err.message }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group" [class.has-error]="registrationForm.postalCode().invalid() && registrationForm.postalCode().touched()">
+            <label for="postalCode">Postal Code (5 Digits)</label>
+            <input
+              id="postalCode"
+              type="text"
+              placeholder="e.g. 90210"
+              [formField]="registrationForm.postalCode"
+              class="input-control"
+            />
+            @if (registrationForm.postalCode().invalid() && registrationForm.postalCode().touched()) {
+              <div class="error-feedback">
+                @for (err of registrationForm.postalCode().errors(); track err.kind) {
+                  <span>{{ err.message }}</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Account Type Selection -->
+        <div class="form-group">
+          <label for="accountType">Account Tier</label>
+          <select id="accountType" [formField]="registrationForm.accountType" class="input-control select-control">
+            <option value="individual">Individual Plan</option>
+            <option value="business">Business Plan (Reveals Company Name)</option>
+            <option value="premium">Premium Plan (Unlocks Discount Code)</option>
+          </select>
+        </div>
+
+        <!-- Conditionally Hidden Field: Company Name (hidden for non-business) -->
+        @if (!registrationForm.companyName().hidden()) {
+          <div class="form-group animated-fade-in" [class.has-error]="registrationForm.companyName().invalid() && registrationForm.companyName().touched()">
+            <label for="companyName">Company Name (Business Tier only)</label>
+            <input
+              id="companyName"
+              type="text"
+              placeholder="e.g. Acme Corporation"
+              [formField]="registrationForm.companyName"
+              class="input-control"
+            />
+          </div>
+        }
+
+        <!-- Conditionally Disabled Field: Discount Code (disabled for non-premium) -->
+        <div class="form-group" [class.is-disabled]="registrationForm.discountCode().disabled()">
+          <div class="label-row">
+            <label for="discountCode">Discount Code</label>
+            @if (registrationForm.discountCode().disabled()) {
+              <span class="badge-tag">Requires Premium Tier</span>
+            } @else {
+              <span class="badge-tag badge-active">Unlocked</span>
+            }
+          </div>
+          <input
+            id="discountCode"
+            type="text"
+            placeholder="e.g. SAVE20"
+            [formField]="registrationForm.discountCode"
+            class="input-control"
+          />
+        </div>
+
+        <!-- Read-only Field: Referral Code -->
+        <div class="form-group">
+          <label for="referralCode">Referral Code (Read-Only)</label>
+          <input
+            id="referralCode"
+            type="text"
+            [formField]="registrationForm.referralCode"
+            class="input-control readonly-input"
+          />
+        </div>
+
+        <!-- Bio Field (MaxLength Validator) -->
+        <div class="form-group" [class.has-error]="registrationForm.bio().invalid() && registrationForm.bio().touched()">
+          <div class="label-row">
+            <label for="bio">Bio / Summary</label>
+            <span class="char-count">{{ (registrationForm.bio().value() || '').length }}/120</span>
+          </div>
+          <textarea
+            id="bio"
+            rows="3"
+            placeholder="Tell us a little about yourself..."
+            [formField]="registrationForm.bio"
+            class="input-control textarea-control"
+          ></textarea>
+          @if (registrationForm.bio().invalid() && registrationForm.bio().touched()) {
+            <div class="error-feedback">
+              @for (err of registrationForm.bio().errors(); track err.kind) {
+                <span>{{ err.message }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Terms Checkbox (Custom Validator) -->
+        <div class="form-group checkbox-group" [class.has-error]="registrationForm.termsAccepted().invalid() && registrationForm.termsAccepted().touched()">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [formField]="registrationForm.termsAccepted"
+            />
+            <span>I agree to the Terms of Service and Privacy Policy</span>
+          </label>
+          @if (registrationForm.termsAccepted().invalid() && registrationForm.termsAccepted().touched()) {
+            <div class="error-feedback">
+              @for (err of registrationForm.termsAccepted().errors(); track err.kind) {
+                <span>{{ err.message }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isSubmitting() || registrationForm().pending()"
+          >
+            @if (isSubmitting()) {
+              <span>Submitting...</span>
+            } @else {
+              <span>Register Account</span>
+            }
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onReset()"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- LIVE STATE & VALIDATOR INSPECTOR -->
+    <div class="card inspector-card">
+      <div class="inspector-header">
+        <h2>⚡ Signal Forms State Inspector</h2>
+        <span
+          class="status-chip"
+          [class.valid]="registrationForm().valid()"
+          [class.invalid]="registrationForm().invalid()"
+          [class.pending]="registrationForm().pending()"
+        >
+          @if (registrationForm().pending()) {
+            ⏳ Validating...
+          } @else if (registrationForm().valid()) {
+            ✓ Form Valid
+          } @else {
+            ✕ {{ errorsCount() }} Errors
+          }
+        </span>
+      </div>
+
+      <!-- State Metrics -->
+      <div class="state-metrics">
+        <div class="metric">
+          <span class="metric-label">valid()</span>
+          <span class="metric-val" [class.true]="registrationForm().valid()">{{ registrationForm().valid() }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">invalid()</span>
+          <span class="metric-val" [class.false]="registrationForm().invalid()">{{ registrationForm().invalid() }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">touched()</span>
+          <span class="metric-val">{{ registrationForm().touched() }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">dirty()</span>
+          <span class="metric-val">{{ registrationForm().dirty() }}</span>
+        </div>
+      </div>
+
+      <!-- Active Errors Section -->
+      <div class="inspector-section">
+        <h3>Active Form Errors ({{ errorsCount() }})</h3>
+        @if (registrationForm().errors().length === 0) {
+          <div class="no-errors">No active validation errors! ✨</div>
+        } @else {
+          <ul class="error-list">
+            @for (err of registrationForm().errors(); track err.kind + err.message) {
+              <li class="error-item">
+                <span class="error-kind">[{{ err.kind }}]</span>
+                <span class="error-msg">{{ err.message }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Reactive Signal Model JSON -->
+      <div class="inspector-section">
+        <h3>Reactive Model Signal</h3>
+        <pre class="code-block">{{ model() | json }}</pre>
+      </div>
+
+      <!-- Submitted Result Banner -->
+      @if (submittedData(); as data) {
+        <div class="submission-banner">
+          <div class="banner-title">🎉 Form Successfully Submitted!</div>
+          <p>Payload committed from Signal model:</p>
+          <pre class="code-block small">{{ data | json }}</pre>
+        </div>
+      }
+    </div>
+  </div>
+</div>

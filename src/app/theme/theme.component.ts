@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-theme',
   templateUrl: './theme.component.html',
-  styleUrls: ['./theme.component.scss']
+  styleUrls: ['./theme.component.scss'],
+  imports: [ReactiveFormsModule, FormsModule, JsonPipe],
 })
 export class ThemeComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     console.log(this, 'theme');
@@ -16,30 +17,29 @@ export class ThemeComponent implements OnInit {
 
   @ViewChild('headchange') header;
   @ViewChild('myForm') myForm: NgForm;
-  
-    onSubmit(form) {
-      console.log(form.value, 'global');
-      const stylesheet =  form.value;
 
-      if (stylesheet.globalNavColor) {
-        this.header.nativeElement.style.backgroundColor = stylesheet.globalNavColor;
-    }
-    }
+  onSubmit(form) {
+    console.log(form.value, 'global');
+    const stylesheet = form.value;
 
-    checkEmailValue() {
-          // Check if the entire form is valid
-      console.log(this.myForm.valid);
-          // Check if the email control is valid and log errors if any
+    if (stylesheet.globalNavColor) {
+      this.header.nativeElement.style.backgroundColor =
+        stylesheet.globalNavColor;
+    }
+  }
+
+  checkEmailValue() {
+    // Check if the entire form is valid
+    console.log(this.myForm.valid);
+    // Check if the email control is valid and log errors if any
     const emailControl = this.myForm.controls['email'];
     console.log('Email control valid:', emailControl.valid);
     console.log('Email control errors:', emailControl.errors);
-      const emailValue = this.myForm.controls['email'].value;
-      console.log(emailValue);
-    }
+    const emailValue = this.myForm.controls['email'].value;
+    console.log(emailValue);
+  }
 
-    checkValidationStatus() {
-      console.log(this.myForm.controls['email'].status);
-    }
-
-
+  checkValidationStatus() {
+    console.log(this.myForm.controls['email'].status);
+  }
 }
