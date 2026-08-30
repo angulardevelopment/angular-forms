@@ -1,0 +1,8 @@
+ <label>
+      <input 
+        type="checkbox"
+        [checked]="checked()" 
+        (change)="checked.set($event.target.checked)"
+      />
+      <ng-content></ng-content>
+    </label>

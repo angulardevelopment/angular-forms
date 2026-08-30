@@ -1,0 +1,338 @@
+<div class="demo-wrapper">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-badge">Angular Signal Forms 22</div>
+    <h1>Signal Forms & Reactive Forms Interop Demo</h1>
+    <p class="header-description">
+      Demonstrating <code>compatForm()</code> for Reactive Forms interop, plus 
+      <code>schema&lt;T&gt;()</code>, <code>apply()</code>, <code>applyEach()</code>, and <code>applyWhen()</code>.
+    </p>
+
+    <!-- Nav Tabs -->
+    <nav class="nav-tabs">
+      <button
+        type="button"
+        class="tab-btn"
+        [class.active]="activeTab() === 'compat'"
+        (click)="activeTab.set('compat')"
+      >
+        1. Reactive Forms Interop (<code>compatForm</code>)
+      </button>
+      <button
+        type="button"
+        class="tab-btn"
+        [class.active]="activeTab() === 'schemas'"
+        (click)="activeTab.set('schemas')"
+      >
+        2. Schema Composition (<code>apply</code> & <code>applyWhen</code>)
+      </button>
+    </nav>
+  </header>
+
+  <div class="demo-layout">
+    <!-- TAB 1: REACTIVE FORMS INTEROP (compatForm) -->
+    @if (activeTab() === 'compat') {
+      <div class="main-column animated-fade-in">
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">1</span>
+            <div>
+              <h3><code>compatForm</code> Interoperability</h3>
+              <p class="section-desc">
+                Seamlessly bridges traditional Reactive Forms <code>FormControl</code> with Signal Forms state.
+              </p>
+            </div>
+          </div>
+
+          <form (submit)="onSubmitCompat($event)">
+            <!-- Signal Form Field (name) -->
+            <div class="form-group" [class.has-error]="compatUserForm.name().invalid() && compatUserForm.name().touched()">
+              <label>Name (Signal Field, validated against Age) <span class="required">*</span></label>
+              <input
+                type="text"
+                placeholder="Jan"
+                [formField]="compatUserForm.name"
+                class="input-control"
+              />
+              @if (compatUserForm.name().invalid() && compatUserForm.name().touched()) {
+                <div class="error-msg">
+                  @for (err of compatUserForm.name().errors(); track err.kind) {
+                    <span>⚠ {{ err.message }}</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Reactive Forms FormControl Field (age) -->
+            <div class="form-group" [class.has-error]="compatUserForm.age().invalid() && compatUserForm.age().touched()">
+              <label>Age (Reactive <code>FormControl</code> bound via <code>[formControl]</code> or <code>[formField]</code>) <span class="required">*</span></label>
+              <input
+                type="number"
+                [formControl]="ageControl"
+                class="input-control"
+              />
+              <small class="helper-text">
+                Current valueOf(f.age): <strong>{{ compatUserForm.age().value() }}</strong> | FormControl value: <strong>{{ ageControl.value }}</strong>
+              </small>
+            </div>
+
+            <!-- Quick sync triggers -->
+            <div class="quick-actions">
+              <span class="quick-label">Test Reactive Sync:</span>
+              <button type="button" class="btn btn-sm btn-outline" (click)="setAgeFromControl(15)">Set Age = 15 (Triggers &lt; 18 Error)</button>
+              <button type="button" class="btn btn-sm btn-outline" (click)="setAgeFromControl(25)">Set Age = 25 (Valid)</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 1.5rem;">
+              Submit Compat Form
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- State Inspector for Tab 1 -->
+      <div class="side-column">
+        <div class="card inspector-card">
+          <div class="inspector-header">
+            <h2>⚡ compatForm State</h2>
+            <span class="status-chip" [class.valid]="compatUserForm().valid()" [class.invalid]="compatUserForm().invalid()">
+              {{ compatUserForm().valid() ? '✓ Valid' : '✕ ' + compatUserForm().errors().length + ' Errors' }}
+            </span>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-item">
+              <span class="label">valid()</span>
+              <span class="val" [class.positive]="compatUserForm().valid()">{{ compatUserForm().valid() }}</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">invalid()</span>
+              <span class="val" [class.negative]="compatUserForm().invalid()">{{ compatUserForm().invalid() }}</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">touched()</span>
+              <span class="val">{{ compatUserForm().touched() }}</span>
+            </div>
+            <div class="metric-item">
+              <span class="label">dirty()</span>
+              <span class="val">{{ compatUserForm().dirty() }}</span>
+            </div>
+          </div>
+
+          <div class="inspector-section">
+            <h3>Active Validation Errors</h3>
+            @if (compatUserForm().errors().length === 0) {
+              <div class="no-errors-box">✨ Form is valid!</div>
+            } @else {
+              <ul class="error-tree">
+                @for (err of compatUserForm().errors(); track err.kind + err.message) {
+                  <li class="error-tree-item">
+                    <span class="kind">[{{ err.kind }}]</span>
+                    <span class="msg">{{ err.message }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          <div class="inspector-section">
+            <h3>Signal Values</h3>
+            <pre class="json-code">name().value(): {{ compatUserForm.name().value() | json }}
+age().value():  {{ compatUserForm.age().value() | json }}
+ageControl.val: {{ ageControl.value | json }}</pre>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- TAB 2: SCHEMA COMPOSITION -->
+    @if (activeTab() === 'schemas') {
+      <div class="main-column animated-fade-in">
+        <div class="card form-section">
+          <div class="section-title">
+            <span class="step-num">2</span>
+            <div>
+              <h3>Modular Schema Composition</h3>
+              <p class="section-desc">
+                <code>apply(contact)</code>, <code>apply(address)</code>, <code>applyEach(locations)</code>, and <code>applyWhen(cardDetails)</code>.
+              </p>
+            </div>
+          </div>
+
+          <form (submit)="onSubmitOrder($event)">
+            <!-- Customer Name -->
+            <div class="form-group" [class.has-error]="orderForm.customerName().invalid() && orderForm.customerName().touched()">
+              <label>Customer Name <span class="required">*</span></label>
+              <input type="text" placeholder="Sarah Connor" [formField]="orderForm.customerName" class="input-control" />
+            </div>
+
+            <!-- Contact Sub-Schema -->
+            <div class="sub-card">
+              <h4 class="sub-title">📞 Contact (<code>contactSchema</code> with <code>apply</code>)</h4>
+              <div class="grid-2">
+                <div class="form-group" [class.has-error]="orderForm.contact.email().invalid() && orderForm.contact.email().touched()">
+                  <label>Email <span class="required">*</span></label>
+                  <input type="email" placeholder="sarah@example.com" [formField]="orderForm.contact.email" class="input-control" />
+                </div>
+                <div class="form-group" [class.has-error]="orderForm.contact.phone().invalid() && orderForm.contact.phone().touched()">
+                  <label>Phone <span class="required">*</span></label>
+                  <input type="text" placeholder="5551234567" [formField]="orderForm.contact.phone" class="input-control" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Billing & Shipping (apply) -->
+            <div class="address-columns">
+              <div class="sub-card">
+                <h4 class="sub-title">📍 Billing Address (<code>apply</code>)</h4>
+                <div class="form-group">
+                  <label>Street <span class="required">*</span></label>
+                  <input type="text" placeholder="123 Main St" [formField]="orderForm.billingAddress.street" class="input-control" />
+                </div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label>City <span class="required">*</span></label>
+                    <input type="text" placeholder="New York" [formField]="orderForm.billingAddress.city" class="input-control" />
+                  </div>
+                  <div class="form-group">
+                    <label>ZIP <span class="required">*</span></label>
+                    <input type="text" placeholder="10001" [formField]="orderForm.billingAddress.zipCode" class="input-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="sub-card">
+                <h4 class="sub-title">📦 Shipping Address (<code>apply</code>)</h4>
+                <div class="form-group">
+                  <label>Street <span class="required">*</span></label>
+                  <input type="text" placeholder="456 Elm St" [formField]="orderForm.shippingAddress.street" class="input-control" />
+                </div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label>City <span class="required">*</span></label>
+                    <input type="text" placeholder="Los Angeles" [formField]="orderForm.shippingAddress.city" class="input-control" />
+                  </div>
+                  <div class="form-group">
+                    <label>ZIP <span class="required">*</span></label>
+                    <input type="text" placeholder="90001" [formField]="orderForm.shippingAddress.zipCode" class="input-control" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Array Destinations (applyEach) -->
+            <div class="sub-card">
+              <div class="array-header">
+                <h4 class="sub-title" style="margin: 0;">🚚 Multiple Delivery Hubs (<code>applyEach</code>)</h4>
+                <button type="button" class="btn btn-sm btn-outline" (click)="addLocation()">+ Add Hub</button>
+              </div>
+
+              @for (loc of orderForm.deliveryLocations; track $index; let i = $index) {
+                <div class="array-item-card" style="margin-top: 0.75rem;">
+                  <div class="array-header">
+                    <span class="dest-badge">Hub #{{ i + 1 }}</span>
+                    @if (orderForm.deliveryLocations.length > 1) {
+                      <button type="button" class="btn-remove" (click)="removeLocation(i)">✕ Remove</button>
+                    }
+                  </div>
+                  <div class="grid-3">
+                    <div class="form-group">
+                      <label>Street <span class="required">*</span></label>
+                      <input type="text" placeholder="Street" [formField]="loc.street" class="input-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>City <span class="required">*</span></label>
+                      <input type="text" placeholder="City" [formField]="loc.city" class="input-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>ZIP <span class="required">*</span></label>
+                      <input type="text" placeholder="ZIP" [formField]="loc.zipCode" class="input-control" />
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Conditional Payment (applyWhen) -->
+            <div class="form-group">
+              <label>Payment Method (<code>applyWhen</code>)</label>
+              <div class="radio-row">
+                <label class="radio-label">
+                  <input type="radio" value="card" [formField]="orderForm.paymentMethod" />
+                  <span>Credit Card (Validation Active)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" value="cash" [formField]="orderForm.paymentMethod" />
+                  <span>Cash on Delivery (Validation Skipped)</span>
+                </label>
+              </div>
+            </div>
+
+            @if (orderForm.paymentMethod().value() === 'card') {
+              <div class="sub-card card-payment-box animated-fade-in">
+                <h4 class="sub-title">💳 Card Information (Active Schema)</h4>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label>Card Number <span class="required">*</span></label>
+                    <input type="text" placeholder="16 digits" [formField]="orderForm.cardDetails.cardNumber" class="input-control" />
+                  </div>
+                  <div class="form-group">
+                    <label>Cardholder <span class="required">*</span></label>
+                    <input type="text" placeholder="SARAH CONNOR" [formField]="orderForm.cardDetails.cardHolder" class="input-control" />
+                  </div>
+                </div>
+              </div>
+            }
+
+            <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 1.5rem;">
+              Submit Order Form
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- State Inspector for Tab 2 -->
+      <div class="side-column">
+        <div class="card inspector-card">
+          <div class="inspector-header">
+            <h2>⚡ Order Form State</h2>
+            <span class="status-chip" [class.valid]="orderForm().valid()" [class.invalid]="orderForm().invalid()">
+              {{ orderForm().valid() ? '✓ Valid' : '✕ ' + orderForm().errors().length + ' Errors' }}
+            </span>
+          </div>
+
+          <div class="inspector-section">
+            <h3>Active Errors ({{ orderForm().errors().length }})</h3>
+            @if (orderForm().errors().length === 0) {
+              <div class="no-errors-box">✨ All schemas valid!</div>
+            } @else {
+              <ul class="error-tree">
+                @for (err of orderForm().errors(); track err.kind + err.message) {
+                  <li class="error-tree-item">
+                    <span class="kind">[{{ err.kind }}]</span>
+                    <span class="msg">{{ err.message }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          <div class="inspector-section">
+            <h3>orderModel Signal</h3>
+            <pre class="json-code">{{ orderModel() | json }}</pre>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Submission Toast -->
+  @if (submittedResult(); as res) {
+    <div class="card result-card">
+      <h3>🎉 Submission Result</h3>
+      <pre class="json-code small">{{ res | json }}</pre>
+    </div>
+  }
+
+  <router-outlet></router-outlet>
+</div>

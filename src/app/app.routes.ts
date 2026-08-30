@@ -7,6 +7,7 @@ import { ThemeComponent } from './theme/theme.component';
 import { ValidatorCompComponent } from './validator-comp/validator-comp.component';
 import { SignalForms } from './signal-forms/signal-forms';
 import { SignalFormsExtended } from './signal-forms-extended/signal-forms-extended';
+import { SignalForms2 } from './signal-forms-2/signal-forms-2';
 
 export const routes: Routes = [
   {
@@ -32,5 +33,9 @@ export const routes: Routes = [
   {
     path: 'SignalFormsExtended',
     component: SignalFormsExtended,
+  },
+  {
+    path: 'SignalForms2',
+    component: SignalForms2,
   }
 ];
